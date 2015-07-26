@@ -1,6 +1,7 @@
+from urllib2 import urlparse
+
 from scrapy import Spider, Request
 from scrapy.linkextractors import LinkExtractor
-from scrapy.link import Link
 
 
 class DavidAvsSpider(Spider):
@@ -38,6 +39,15 @@ class DavidAvsSpider(Spider):
         yield {
             'url': response.url,
             'level': level,
-            'links': list(links),
+            'links': filter(self.is_link, links),
+            'pages': filter(self.is_page, links),
             'images': list(imgs),
         }
+
+    def is_page(self, url):
+        """Return `True` if the url is a page on the website."""
+        return urlparse.urlparse(url).netloc.lower() in self.allowed_domains
+
+    def is_link(self, url):
+        """Return `True` if the url is an external link."""
+        return not self.is_page(url)
