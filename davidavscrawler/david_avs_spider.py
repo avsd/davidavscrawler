@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from urllib2 import urlparse
+import argparse
+import sys
 
 from scrapy import Spider, Request
 from scrapy.crawler import CrawlerProcess
@@ -7,12 +9,13 @@ from scrapy.linkextractors import LinkExtractor
 
 
 class DavidAvsSpider(Spider):
-    name = 'davidavs'
-    allowed_domains = ['davidavs.com']
-    start_urls = ['http://davidavs.com']
-    links_seen = set()
-    links_fetched = set()  # May be different due to 302 redirects
+    name = 'davidavscrawler'
     extractor = LinkExtractor()
+
+    def __init__(self, *args, **kwargs):
+        super(DavidAvsSpider, self).__init__(*args, **kwargs)
+        self.links_seen = set()
+        self.links_fetched = set()  # May be different due to 302 redirects
 
     def parse(self, response, level=1):
         # Check if this url already has been returned
@@ -56,12 +59,39 @@ class DavidAvsSpider(Spider):
         return not self.is_page(url)
 
 
-if __name__ == '__main__':
+def main():
+
+    # Command-line interface
+    parser = argparse.ArgumentParser(
+        description='Simple website parser that parses a single domain and creates a simple JSON sitemap.',
+    )
+    parser.add_argument('url', help='Starting URL to be parsed.')
+    parser.add_argument('file', type=argparse.FileType('w'), default=sys.stdout,
+                        help='File to write the JSON output.')
+    parser.add_argument('--verbose', '-v', action='store_true', help='Enable verbose logging to stderr')
+    args = parser.parse_args()
+
+    # Crawler process declaration
     process = CrawlerProcess({
         'USER_AGENT': 'David Avs Crawler',
         'FEED_FORMAT': 'json',
-        'FEED_URI': 'out2.json',
+        'FEED_URI': 'stdout:',
+        'LOG_ENABLED': args.verbose,
     })
+    kwargs = dict(
+        start_urls=[args.url],
+        allowed_domains=[urlparse.urlparse(args.url).netloc.lower()],
+    )
 
-    process.crawl(DavidAvsSpider)
-    process.start()
+    # Run crawling
+    old_stdout = sys.stdout
+    sys.stdout = args.file
+    try:
+        process.crawl(DavidAvsSpider, **kwargs)
+        process.start()
+    finally:
+        sys.stdout = old_stdout
+
+
+if __name__ == '__main__':
+    main()
