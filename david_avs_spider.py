@@ -1,6 +1,7 @@
 from urllib2 import urlparse
 
 from scrapy import Spider, Request
+from scrapy.crawler import CrawlerProcess
 from scrapy.linkextractors import LinkExtractor
 
 
@@ -52,3 +53,14 @@ class DavidAvsSpider(Spider):
     def is_link(self, url):
         """Return `True` if the url is an external link."""
         return not self.is_page(url)
+
+
+if __name__ == '__main__':
+    process = CrawlerProcess({
+        'USER_AGENT': 'David Avs Crawler',
+        'FEED_FORMAT': 'json',
+        'FEED_URI': 'out2.json',
+    })
+
+    process.crawl(DavidAvsSpider)
+    process.start()
