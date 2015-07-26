@@ -59,39 +59,49 @@ class DavidAvsSpider(Spider):
         return not self.is_page(url)
 
 
-def main():
+class CrawlerCli(object):
+    """Command-line interface for crawler"""
 
-    # Command-line interface
-    parser = argparse.ArgumentParser(
-        description='Simple website parser that parses a single domain and creates a simple JSON sitemap.',
-    )
-    parser.add_argument('url', help='Starting URL to be parsed.')
-    parser.add_argument('file', type=argparse.FileType('w'), default=sys.stdout,
-                        help='File to write the JSON output.')
-    parser.add_argument('--verbose', '-v', action='store_true', help='Enable verbose logging to stderr')
-    args = parser.parse_args()
+    def parse_args(self, *args):
+        """Parses command-line arguments"""
+        # Command-line interface
+        parser = argparse.ArgumentParser(
+            description='Simple website parser that parses a single domain and creates a simple JSON sitemap.',
+        )
+        parser.add_argument('url', help='Starting URL to be parsed.')
+        parser.add_argument('file', type=argparse.FileType('w'), default=sys.stdout,
+                            help='File to write the JSON output.')
+        parser.add_argument('--verbose', '-v', action='store_true', help='Enable verbose logging to stderr')
+        return parser.parse_args(*args)
 
-    # Crawler process declaration
-    process = CrawlerProcess({
-        'USER_AGENT': 'David Avs Crawler',
-        'FEED_FORMAT': 'json',
-        'FEED_URI': 'stdout:',
-        'LOG_ENABLED': args.verbose,
-    })
-    kwargs = dict(
-        start_urls=[args.url],
-        allowed_domains=[urlparse.urlparse(args.url).netloc.lower()],
-    )
+    def run_crawl(self, args):
+        """Run parallel crawling process using Scrapy backed with Twisted"""
 
-    # Run crawling
-    old_stdout = sys.stdout
-    sys.stdout = args.file
-    try:
-        process.crawl(DavidAvsSpider, **kwargs)
-        process.start()
-    finally:
-        sys.stdout = old_stdout
+        # Crawler process declaration
+        process = CrawlerProcess({
+            'USER_AGENT': 'David Avs Crawler',
+            'FEED_FORMAT': 'json',
+            'FEED_URI': 'stdout:',
+            'LOG_ENABLED': args.verbose,
+        })
+        kwargs = dict(
+            start_urls=[args.url],
+            allowed_domains=[urlparse.urlparse(args.url).netloc.lower()],
+        )
 
+        # Run crawling
+        old_stdout = sys.stdout
+        sys.stdout = args.file
+        try:
+            process.crawl(DavidAvsSpider, **kwargs)
+            process.start()
+        finally:
+            sys.stdout = old_stdout
+
+    def main(self):
+        """The main method"""
+        args = self.parse_args()
+        self.run_crawl(args)
 
 if __name__ == '__main__':
-    main()
+    CrawlerCli().main()
