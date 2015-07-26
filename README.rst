@@ -14,11 +14,11 @@ Simple crawler generating a sitemap.
 Features
 --------
 
-  * Crawls a single domain starting from the specified URL
-  * Outputs JSON sitemap
-  * For each page lists links to other pages within the domain, external links and images
-  * Writes to stdout or to a specified file
-  * Detailed logging for debug purposes
+* Crawls a single domain starting from the specified URL
+* Outputs JSON sitemap
+* For each page lists links to other pages within the domain, external links and images
+* Writes to stdout or to a specified file
+* Detailed logging for debug purposes
 
 
 Installation
@@ -65,11 +65,11 @@ Output format
 
 The output format is JSON list of items. Each item contains following fields:
 
-  * ``url`` - absolute URL of the crawled page
-  * ``level`` - depth level of the current page from the initial one
-  * ``pages`` - list of pages (lnks within the domain)
-  * ``links`` - list of external links
-  * ``images`` - list of images used in the page
+* ``url`` - absolute URL of the crawled page
+* ``level`` - depth level of the current page from the initial one
+* ``pages`` - list of pages (lnks within the domain)
+* ``links`` - list of external links
+* ``images`` - list of images used in the page
 
 Development and Testing
 -----------------------
@@ -99,14 +99,14 @@ The project layout has been created using a cookiecutter template
 Limitations
 -----------
 
-  * In this version static content returned by the crawler is limited to ``<img>`` tag images.
+* In this version static content returned by the crawler is limited to ``<img>`` tag images.
     CSS images and other types of objects are not supported.
-  * The standard Scrapy link extractor used in this project modifies order of query string parameters
+* The standard Scrapy link extractor used in this project modifies order of query string parameters
     in the URLs, and makes them canonical (e.g. adds "=" where it's missing).
     Therefore, links returned by the crawler may differ from the real links on crawled pages.
 
 TODO
 ----
 
-  * Add more unit tests
-  * Add support for other versions of Python (currently only tested for Python 2.7)
+* Add more unit tests
+* Add support for other versions of Python (currently only tested for Python 2.7)
