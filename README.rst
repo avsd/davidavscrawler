@@ -46,6 +46,15 @@ The package installs a command line script ``crawl``::
     -h, --help     show this help message and exit
     --verbose, -v  Enable verbose logging to stderr
 
+.. note::
+
+    This version of script dumps raw JSON, which is difficult to read. In order
+    to view the sitemap in readable form, you can use Python JSON tool::
+
+        $ crawl http://davidavs.com | python -mjson.tool
+
+
+
 
 Output format
 ^^^^^^^^^^^^^
