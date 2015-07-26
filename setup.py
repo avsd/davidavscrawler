@@ -11,9 +11,6 @@ except ImportError:
 with open('README.rst') as readme_file:
     readme = readme_file.read()
 
-with open('HISTORY.rst') as history_file:
-    history = history_file.read().replace('.. :changelog:', '')
-
 requirements = [
     # TODO: put package requirements here
 ]
@@ -26,24 +23,22 @@ setup(
     name='davidavscrawler',
     version='0.1.0',
     description="Simple crawler generating a sitemap.",
-    long_description=readme + '\n\n' + history,
-    author="DavidAvsCrawler",
+    long_description=readme,
+    author="David Avs",
     author_email='david@davidavs.com',
     url='https://github.com/avsd/davidavscrawler',
     packages=[
-        'davidavscrawler',
+        'david_avs_spider',
     ],
     package_dir={'davidavscrawler':
                  'davidavscrawler'},
     include_package_data=True,
     install_requires=requirements,
-    license="BSD",
     zip_safe=False,
     keywords='davidavscrawler',
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Developers',
-        'License :: OSI Approved :: BSD License',
         'Natural Language :: English',
         "Programming Language :: Python :: 2",
         'Programming Language :: Python :: 2.6',

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from urllib2 import urlparse
 
 from scrapy import Spider, Request
