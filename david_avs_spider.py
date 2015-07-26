@@ -46,7 +46,8 @@ class DavidAvsSpider(Spider):
 
     def is_page(self, url):
         """Return `True` if the url is a page on the website."""
-        return urlparse.urlparse(url).netloc.lower() in self.allowed_domains
+        netloc = urlparse.urlparse(url).netloc.lower()
+        return any(map(lambda domain: netloc.endswith(domain), self.allowed_domains))
 
     def is_link(self, url):
         """Return `True` if the url is an external link."""
