@@ -28,6 +28,10 @@ Install as a standard Python module::
 
     python setup.py install
 
+If you are using ``pip``, the module can be installed directly from GitHub::
+
+    pip install https://github.com/avsd/davidavscrawler/archive/master.zip#davidavscrawler==0.1.0
+
 Usage
 -----
 
