@@ -100,10 +100,10 @@ Limitations
 -----------
 
 * In this version static content returned by the crawler is limited to ``<img>`` tag images.
-    CSS images and other types of objects are not supported.
+  CSS images and other types of objects are not supported.
 * The standard Scrapy link extractor used in this project modifies order of query string parameters
-    in the URLs, and makes them canonical (e.g. adds "=" where it's missing).
-    Therefore, links returned by the crawler may differ from the real links on crawled pages.
+  in the URLs, and makes them canonical (e.g. adds "=" where it's missing).
+  Therefore, links returned by the crawler may differ from the real links on crawled pages.
 
 TODO
 ----
