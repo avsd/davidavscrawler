@@ -12,11 +12,11 @@ with open('README.rst') as readme_file:
     readme = readme_file.read()
 
 requirements = [
-    # TODO: put package requirements here
+    'Scrapy==1.0.1',
 ]
 
 test_requirements = [
-    # TODO: put package test requirements here
+    'mock==1.3.0',
 ]
 
 setup(
@@ -28,7 +28,7 @@ setup(
     author_email='david@davidavs.com',
     url='https://github.com/avsd/davidavscrawler',
     packages=[
-        'david_avs_spider',
+        'davidavscrawler',
     ],
     package_dir={'davidavscrawler':
                  'davidavscrawler'},
@@ -48,5 +48,8 @@ setup(
         'Programming Language :: Python :: 3.4',
     ],
     test_suite='tests',
-    tests_require=test_requirements
+    tests_require=test_requirements,
+    entry_points={
+        'console_scripts': ['crawl=davidavscrawler.crawler:main'],
+    },
 )

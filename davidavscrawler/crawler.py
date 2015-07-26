@@ -69,10 +69,10 @@ class CrawlerCli(object):
             description='Simple website parser that parses a single domain and creates a simple JSON sitemap.',
         )
         parser.add_argument('url', help='Starting URL to be parsed.')
-        parser.add_argument('file', type=argparse.FileType('w'), default=sys.stdout,
-                            help='File to write the JSON output.')
+        parser.add_argument('file', type=argparse.FileType('w'), default=sys.stdout, nargs='?',
+                            help='File to write the JSON output (default: stdout).')
         parser.add_argument('--verbose', '-v', action='store_true', help='Enable verbose logging to stderr')
-        return parser.parse_args(*args)
+        return parser.parse_args(args or None)
 
     def run_crawl(self, args):
         """Run parallel crawling process using Scrapy backed with Twisted"""
@@ -98,10 +98,16 @@ class CrawlerCli(object):
         finally:
             sys.stdout = old_stdout
 
-    def main(self):
+    def run(self):
         """The main method"""
         args = self.parse_args()
         self.run_crawl(args)
 
+
+def main():
+    cli = CrawlerCli()
+    cli.run()
+
+
 if __name__ == '__main__':
-    CrawlerCli().main()
+    main()
