@@ -61,11 +61,11 @@ Output format
 
 The output format is JSON list of items. Each item contains following fields:
 
-    * ``url`` - absolute URL of the crawled page
-    * ``level`` - depth level of the current page from the initial one
-    * ``pages`` - list of pages (lnks within the domain)
-    * ``links`` - list of external links
-    * ``images`` - list of images used in the page
+  * ``url`` - absolute URL of the crawled page
+  * ``level`` - depth level of the current page from the initial one
+  * ``pages`` - list of pages (lnks within the domain)
+  * ``links`` - list of external links
+  * ``images`` - list of images used in the page
 
 Development and Testing
 -----------------------
@@ -79,6 +79,17 @@ To run tests against all supported Python versions, use the command::
     make test-all
 
 For more information about development see `CONTRIBUTING.rst`
+
+
+Architecture
+^^^^^^^^^^^^
+
+The crawler is based on Scrapy (see http://scrapy.org/), using its built-in link extractor
+and JSON generator. It's implemented as a command line tool using Argparse module
+(see https://docs.python.org/2.7/library/argparse.html).
+
+The project layout has been created using a cookiecutter template
+(see http://cookiecutter.readthedocs.org/en/latest/readme.html#available-cookiecutters).
 
 
 Limitations
